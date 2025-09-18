@@ -28,7 +28,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: NPM Build
-        run: npm run sdk:build
+        run: npm run build
       - name: NPM Publish
         run: |
           npm version --no-git-tag-version ${{ github.event.release.tag_name }}
