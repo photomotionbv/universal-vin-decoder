@@ -28,7 +28,8 @@
     "build": "tsup",
     "test": "jest",
     "lint": "eslint .",
-    "prepublishOnly": "pnpm run lint && pnpm run test && pnpm run build"
+    "prepublishOnly": "pnpm run lint && pnpm run test && pnpm run build",
+    "update-manufactures": "npx tsx scripts/generate-manufacturers-file.ts"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
@@ -44,6 +45,7 @@
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "tsup": "^8.0.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "tsx": "^4.20.5"
   }
 }
