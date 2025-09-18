@@ -1,5 +1,5 @@
 name: Release
-"on":
+'on':
   release:
     types:
       - released
@@ -43,11 +43,6 @@ jobs:
   cd:
     name: CD
     needs: [ci, merge-main]
-    # Ensure the CD-job also runs when `merge-main` is skipped (at which point
-    # we do a "Preview" instead of a "Production" deploy to Cloudflare Pages).
     if: always() && !failure() && !cancelled()
     uses: ./.github/workflows/cd.yaml
-    with:
-      # Cloudflare Pages "Production"-deploy is the _inverse_ of pre-release...
-      cf-pages-production: ${{ !github.event.release.prerelease }}
     secrets: inherit
