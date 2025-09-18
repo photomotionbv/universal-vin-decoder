@@ -13,7 +13,6 @@ permissions:
 jobs:
   merge-main:
     name: Merge to main
-    needs: [ci]
     if: ${{ !github.event.release.prerelease }}
     runs-on: ubuntu-22.04
     steps:
@@ -36,7 +35,7 @@ jobs:
           git push
   cd:
     name: CD
-    needs: [ci, merge-main]
+    needs: [merge-main]
     if: always() && !failure() && !cancelled()
     uses: ./.github/workflows/cd.yaml
     secrets: inherit
