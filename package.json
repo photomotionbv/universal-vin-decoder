@@ -29,7 +29,7 @@
     "test": "jest",
     "lint": "eslint .",
     "prepublishOnly": "pnpm run lint && pnpm run test && pnpm run build",
-    "update-manufactures": "npx tsx scripts/generate-manufacturers-file.ts"
+    "update-manufacturers": "npx tsx scripts/generate-manufacturers-file.ts"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
