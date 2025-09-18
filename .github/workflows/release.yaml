@@ -11,12 +11,6 @@ permissions:
   id-token: write
   pull-requests: read
 jobs:
-  ci:
-    name: CI
-    uses: ./.github/workflows/ci.yaml
-    with:
-      deploy-environment: production
-    secrets: inherit
   merge-main:
     name: Merge to main
     needs: [ci]
