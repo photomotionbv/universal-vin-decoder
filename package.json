@@ -1,5 +1,5 @@
 {
-  "name": "universal-vin-decoder",
+  "name": "@photomotionbv/vin-decoder",
   "version": "1.0.0",
   "description": "An NPM package to decode Vehicle Identification Numbers (VIN)",
   "author": "Mobito",

@@ -1,0 +1,23 @@
+name: Deploy — develop
+"on":
+  pull_request:
+  push:
+    branches: [develop]
+    tags-ignore: ["**"]
+permissions:
+  actions: read
+  contents: read
+  packages: write
+  pull-requests: read
+jobs:
+  ci:
+    name: CI
+    uses: ./.github/workflows/ci.yaml
+    with:
+      deploy-environment: preview
+    secrets: inherit
+  cd:
+    name: CD
+    needs: [ci]
+    uses: ./.github/workflows/cd.yaml
+    secrets: inherit

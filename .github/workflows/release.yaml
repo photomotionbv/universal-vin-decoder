@@ -1,0 +1,53 @@
+name: Release
+"on":
+  release:
+    types:
+      - released
+      - prereleased
+permissions:
+  actions: read
+  packages: write
+  contents: write
+  id-token: write
+  pull-requests: read
+jobs:
+  ci:
+    name: CI
+    uses: ./.github/workflows/ci.yaml
+    with:
+      deploy-environment: production
+    secrets: inherit
+  merge-main:
+    name: Merge to main
+    needs: [ci]
+    if: ${{ !github.event.release.prerelease }}
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.AUTOMATON_APP_ID }}
+          private-key: ${{ secrets.AUTOMATON_PRIVATE_KEY }}
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
+      - name: Git merge (fast-forward)
+        run: |
+          git config user.name "Photo-Motion automaton"
+          git config user.email "<automaton@photo-motion.com>"
+          git checkout main
+          git merge --ff-only origin/develop
+          git push
+  cd:
+    name: CD
+    needs: [ci, merge-main]
+    # Ensure the CD-job also runs when `merge-main` is skipped (at which point
+    # we do a "Preview" instead of a "Production" deploy to Cloudflare Pages).
+    if: always() && !failure() && !cancelled()
+    uses: ./.github/workflows/cd.yaml
+    with:
+      # Cloudflare Pages "Production"-deploy is the _inverse_ of pre-release...
+      cf-pages-production: ${{ !github.event.release.prerelease }}
+    secrets: inherit

@@ -1,0 +1,37 @@
+name: CD
+'on':
+  workflow_call:
+    inputs:
+      cf-pages-production:
+        description: Deploy to Cloudflare Pages "Production"
+        required: false
+        default: false
+        type: boolean
+jobs:
+  publish-npm:
+    name: Publish NPM-package
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: write
+    if: ${{ github.event.release.tag_name }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com
+      - name: NPM CI
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: NPM Build
+        run: npm run sdk:build
+      - name: NPM Publish
+        run: |
+          npm version --no-git-tag-version ${{ github.event.release.tag_name }}
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
