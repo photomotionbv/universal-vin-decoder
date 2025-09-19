@@ -44,3 +44,12 @@ Use the package manager of your choice to install it throug the NPM registry. If
 ```sh
 npm install universal-vin-decoder
 ```
+
+## Update Manufacturers
+
+Update `src/constants/manufacturer.constant.ts` by scraping wikipedia:
+https://en.wikipedia.org/wiki/Vehicle_identification_number
+
+```sh
+npm run updateManufacturers
+```

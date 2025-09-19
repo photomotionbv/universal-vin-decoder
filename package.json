@@ -1,5 +1,5 @@
 {
-  "name": "universal-vin-decoder",
+  "name": "@photomotionbv/vin-decoder",
   "version": "1.0.0",
   "description": "An NPM package to decode Vehicle Identification Numbers (VIN)",
   "author": "Mobito",
@@ -28,7 +28,8 @@
     "build": "tsup",
     "test": "jest",
     "lint": "eslint .",
-    "prepublishOnly": "pnpm run lint && pnpm run test && pnpm run build"
+    "prepublishOnly": "npm run updateManufacturers && npm run lint && npm run test && npm run build",
+    "updateManufacturers": "npx tsx scripts/generate-manufacturers-file.ts"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
@@ -44,6 +45,7 @@
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "tsup": "^8.0.1",
+    "tsx": "^4.20.5",
     "typescript": "^5.3.3"
   }
 }
